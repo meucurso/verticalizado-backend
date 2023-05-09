@@ -1,10 +1,27 @@
-const connection = require('./connection')
+const connection = require("./connection");
 
-const getAllInfo = async () => { 
-    const users = await connection.execute('SELECT * FROM users');
+const getAllInfo = async () => {
+  connection.query("SELECT * FROM editals", (err, rows) => {
+    if (err) throw err;
+    console.log("Data received from Db:");
+    console.log(rows);
+  });
 
-}
+  console.log("getAllInfoAboutEditals");
+};
+const editEditals = async () => {
+  console.log("editEditals");
+};
+const deleteEditals = async () => {
+  console.log("deleteEditals");
+};
+const createEditals = async () => {
+  console.log("createEditals");
+};
 
 module.exports = {
-    getAll
-}
+  getAllInfo,
+  editEditals,
+  deleteEditals,
+  createEditals,
+};
