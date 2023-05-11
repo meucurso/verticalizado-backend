@@ -1,22 +1,19 @@
 const connection = require("./connection");
 
 const getAllInfo = async () => {
-  connection.query("SELECT * FROM editals", (err, rows) => {
-    if (err) throw err;
-    console.log("Data received from Db:");
-    console.log(rows);
+return response.status(200).json({ message: "getAllInfoAboutEditals" 
   });
 
-  console.log("getAllInfoAboutEditals");
+  
 };
 const editEditals = async () => {
-  console.log("editEditals");
+  return response.status(200).json({ message: "editEditals" });
 };
 const deleteEditals = async () => {
-  console.log("deleteEditals");
+return response.status(200).json({ message: "deleteEditals" });
 };
 const createEditals = async () => {
-  console.log("createEditals");
+  return response.status(200).json({ message: "createEditals" });
 };
 
 module.exports = {

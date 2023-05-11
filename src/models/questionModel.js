@@ -1,17 +1,17 @@
 const connection = require("./connection");
 
 const getQuestions = async () => {
-  console.log("getQuestions");
+  return response.status(200).json({ message: "getQuestions" });
 };
 
 const createQuestions = async () => {
-  console.log("createQuestion");
+return response.status(200).json({ message: "createQuestions" });
 };
 const deleteQuestion = async () => {
-  console.log("deleted");
+ return response.status(200).json({ message: "deleteQuestion" });
 };
 const editQuestion = async () => {
-    console.log("editQuestion");
+  return response.status(200).json({ message: "editQuestion" })
 };
 
 module.exports = {
@@ -20,5 +20,5 @@ module.exports = {
     deleteQuestion,
     editQuestion,
 
-    
+
 };

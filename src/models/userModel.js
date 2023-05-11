@@ -1,20 +1,21 @@
 const connection = require("./connection");
 
 const getUserInfo = async () => {
-  console.log("get user info");
+  return response.status(200).json({ message: "getUserInfo" });
 };
 const getUserInfoById = async (id) => {
-
   console.log(id);
+  return response.status(200).json({ message: "getUserInfoById" });
 };
 const createUser = async () => {
-  console.log("createUser");
+return response.status(200).json({ message: "createUser" });
 };
 const deleteUser = async () => {
-  console.log("deleted");
+ return response.status(200).json({ message: "deleteUser" });
 };
 
 module.exports = {
+  getUserInfoById,
   getUserInfo,
   createUser,
   deleteUser,

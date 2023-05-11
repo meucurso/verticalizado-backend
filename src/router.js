@@ -1,12 +1,9 @@
 const express = require("express");
-const { getAllInfo } = require("./models/editalsModel");
+const editalModel = require("./models/editalsModel");
 
 const router = express.Router();
 
-router.get("/editals", (req, res) => {
-getAllInfo();
-    res.send("Editais");
-});
+router.get("/editals", editalModel.getAllInfo);
 router.get("/questions", (req, res) => {
     res.send("Questões");
 });
