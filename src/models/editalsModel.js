@@ -1,9 +1,10 @@
 const connection = require("./connection");
 
 const getAllInfo = async () => {
-return response.status(200).json({ message: "getAllInfoAboutEditals" 
-  });
-
+  const [editals] = await connection.execute(
+    "SELECT * FROM editals"
+  );
+  return editals;
   
 };
 const editEditals = async () => {
