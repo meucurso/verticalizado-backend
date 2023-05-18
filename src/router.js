@@ -15,6 +15,6 @@ router.get("/questions", (req, res) => {
   res.send("Questões");
 });
 
-router.get("/users", userController.getAll);
+router.get("/users/getAll", userController.getAll);
 
 module.exports = router;

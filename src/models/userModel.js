@@ -11,6 +11,13 @@ const getUserInfoById = async (id) => {
   );
   return user;
 };
+const editUser = async (id) => {
+  const [user] = await connection.execute("UPDATE student SET WHERE id = ?", [
+    id,
+  ]);
+  return user;
+};
+
 const createUser = async (
   name,
   email,
@@ -49,6 +56,7 @@ const deleteUser = async (id) => {
 
 module.exports = {
   getUserInfoById,
+  editUser,
   getAllUsers,
   createUser,
   deleteUser,
