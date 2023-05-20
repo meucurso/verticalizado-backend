@@ -1,9 +1,5 @@
 const connection = require("./connection");
-
-const getAllUsers = async () => {
-  const [users] = await connection.execute("SELECT * FROM student");
-  return users;
-};
+const crypt = require("bcrypt");
 const getUserInfoById = async (id) => {
   const [user] = await connection.execute(
     "SELECT * FROM student WHERE id = ?",
@@ -17,8 +13,7 @@ const editUser = async (id) => {
   ]);
   return user;
 };
-
-const createUser = async (
+const createUser = async ({
   name,
   email,
   password,
@@ -28,8 +23,8 @@ const createUser = async (
   stateId,
   cityId,
   dateInserted,
-  active
-) => {
+  active,
+}) => {
   const [user] = await connection.execute(
     "INSERT INTO student (name, email, password, cpf, sex, bornDate, stateId, cityId, dateInserted, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
@@ -53,11 +48,9 @@ const deleteUser = async (id) => {
   ]);
   return user;
 };
-
 module.exports = {
   getUserInfoById,
   editUser,
-  getAllUsers,
   createUser,
   deleteUser,
 };
