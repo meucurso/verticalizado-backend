@@ -1,5 +1,4 @@
 const connection = require("./connection");
-const crypt = require("bcrypt");
 const getUserInfoById = async (id) => {
   const [user] = await connection.execute(
     "SELECT * FROM student WHERE id = ?",
@@ -14,36 +13,40 @@ const editUser = async (id) => {
   return user;
 };
 const createUser = async ({
+  state_id,
+  city_id,
   name,
   email,
-  password,
   cpf,
   sex,
-  bornDate,
-  stateId,
-  cityId,
-  dateInserted,
   active,
+  updated_at,
+  created_at,
+  password,
 }) => {
-  const [user] = await connection.execute(
-    "INSERT INTO student (name, email, password, cpf, sex, bornDate, stateId, cityId, dateInserted, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [
+  try {
+    const [user] = await connection.execute("INSERT INTO Student ( state_id, city_id, name, email, cpf, sex, active, update_at, created_at, password) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+      state_id,
+      city_id,
       name,
       email,
-      password,
       cpf,
       sex,
-      bornDate,
-      stateId,
-      cityId,
-      dateInserted,
       active,
-    ]
-  );
-  return user;
+      updated_at,
+      created_at,
+      password,
+    ]);
+    return user;
+  } catch (error) {
+    console.error('Erro ao criar o usuário:', error);
+    throw error;
+  }
 };
+
+
 const deleteUser = async (id) => {
-  const [user] = await connection.execute("DELETE FROM student WHERE id = ?", [
+  const [user] = await connection.execute("UPDATE student ", [
     id,
   ]);
   return user;
