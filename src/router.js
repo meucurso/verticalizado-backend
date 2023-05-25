@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/users/create", userController.create);
-router.get("/users/getUserInfoById", userController.getUserInfoById);
+router.get("/users/getUserInfo", userController.getUserInfo);
 router.put("/users/edit", userController.editUserController);
 router.put("/users/delete", userController.deleteUserController);
 

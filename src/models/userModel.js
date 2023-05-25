@@ -1,17 +1,4 @@
 const connection = require("./connection");
-const getUserInfoById = async (id) => {
-  const [user] = await connection.execute(
-    "SELECT * FROM student WHERE id = ?",
-    [id]
-  );
-  return user;
-};
-const editUser = async (id) => {
-  const [user] = await connection.execute("UPDATE student SET WHERE id = ?", [
-    id,
-  ]);
-  return user;
-};
 const createUser = async ({
   state_id,
   city_id,
@@ -44,6 +31,24 @@ const createUser = async ({
   }
 };
 
+const getUserInfo = async (email) => {
+  const [user] = await connection.execute("SELECT * FROM student WHERE email = ?", [
+    email,
+  ]);
+  return user;
+};
+
+const editUserInfo = async (email, name, state_id, city_id) => {
+  const [user] = await connection.execute("UPDATE student SET name = ?, state_id = ?, city_id = ? WHERE email = ?", [
+    name,
+    state_id,
+    city_id,
+    email,
+  ]);
+  return user;
+
+};
+
 
 const deleteUser = async (email) => {
 
@@ -56,11 +61,11 @@ const deleteUser = async (email) => {
     console.error('Erro ao deletar o usuário:', error);
     throw error;
   }
-  
+
 };
 module.exports = {
-  getUserInfoById,
-  editUser,
-  createUser,
+createUser,
+getUserInfo,
+ editUserInfo,
   deleteUser,
 };

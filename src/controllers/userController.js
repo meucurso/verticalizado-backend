@@ -1,10 +1,6 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const uuid = require("uuid");
-const getAll = async (req, res) => {
-  const users = await userModel.getAllUsers();
-  return res.status(200).json(users);
-};
+
 const create = async (req, res) => {
   const {
     state_id,
@@ -34,24 +30,27 @@ const create = async (req, res) => {
 
 return res.status(200).json(user);
 };
+const getUserInfo = async (req, res) => {
+  const { email } = req.body;
+  const user = await userModel.getUserInfo(email);
+  return res.status(200).json(user);
+};
+
 const deleteUserController = async (req, res) => {
   const { email } = req.body;
   const user = await userModel.deleteUser(email);
   return res.status(200).json(user);
 };
 const editUserController = async (req, res) => {
-  const user = await userModel.editUser();
-  return res.status(200).json(user);
-};
-const getUserInfoById = async (req, res) => {
-  const user = await userModel.getUserInfoById();
+  const { email, name, state_id, city_id } = req.body;
+  const user = await userModel.editUserInfo(email, name, state_id, city_id);
   return res.status(200).json(user);
 };
 
+
 module.exports = {
-  getUserInfoById,
+  getUserInfo,
   editUserController,
-  getAll,
   deleteUserController,
   create,
 };
