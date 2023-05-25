@@ -45,11 +45,18 @@ const createUser = async ({
 };
 
 
-const deleteUser = async (id) => {
-  const [user] = await connection.execute("UPDATE student ", [
-    id,
-  ]);
-  return user;
+const deleteUser = async (email) => {
+
+  try{
+    const [user] = await connection.execute("UPDATE student SET active = 0 WHERE email = ?", [
+      email,
+    ]);
+    return user;
+  } catch (error) {
+    console.error('Erro ao deletar o usuário:', error);
+    throw error;
+  }
+  
 };
 module.exports = {
   getUserInfoById,

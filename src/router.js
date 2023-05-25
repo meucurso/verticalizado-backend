@@ -5,10 +5,10 @@ const router = express.Router();
 router.get("/", (req, res) => {
   res.send("Hello World!");
 });
-router.get("/users/getAll", userController.getAll);
-router.get("/users/getUserInfoById", userController.getUserInfoById);
+
 router.post("/users/create", userController.create);
+router.get("/users/getUserInfoById", userController.getUserInfoById);
 router.put("/users/edit", userController.editUserController);
-router.delete("/users/delete", userController.deleteUserController);
+router.put("/users/delete", userController.deleteUserController);
 
 module.exports = router;

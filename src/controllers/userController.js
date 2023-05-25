@@ -6,8 +6,6 @@ const getAll = async (req, res) => {
   return res.status(200).json(users);
 };
 const create = async (req, res) => {
-  const randomID = uuid.v4();
-
   const {
     state_id,
     city_id,
@@ -37,7 +35,8 @@ const create = async (req, res) => {
 return res.status(200).json(user);
 };
 const deleteUserController = async (req, res) => {
-  const user = await userModel.deleteUser();
+  const { email } = req.body;
+  const user = await userModel.deleteUser(email);
   return res.status(200).json(user);
 };
 const editUserController = async (req, res) => {
