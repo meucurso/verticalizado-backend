@@ -32,13 +32,19 @@ const createUser = async ({
 };
 
 const getUserInfo = async (email) => {
+ try{
   const [user] = await connection.execute("SELECT * FROM student WHERE email = ?", [
     email,
   ]);
   return user;
+ } catch (error) {
+    console.error('Erro ao pegar informacao do  usuário:', error);
+    throw error;
+  }
 };
 
 const editUserInfo = async (email, name, state_id, city_id) => {
+try{
   const [user] = await connection.execute("UPDATE student SET name = ?, state_id = ?, city_id = ? WHERE email = ?", [
     name,
     state_id,
@@ -46,6 +52,10 @@ const editUserInfo = async (email, name, state_id, city_id) => {
     email,
   ]);
   return user;
+} catch (error) {
+    console.error('Erro ao editar o usuário:', error);
+    throw error;
+  }
 
 };
 
