@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/users/create", userController.create);
+router.post("/users/auth", userController.auth);
 router.get("/users/getUserInfo", userController.getUserInfo);
 router.put("/users/edit", userController.editUserController);
 router.put("/users/delete", userController.deleteUserController);

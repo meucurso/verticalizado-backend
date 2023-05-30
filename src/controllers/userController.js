@@ -1,5 +1,33 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const SECRET = process.env.JWT_SECRET;
+
+
+    const auth = async (req, res) => {
+      try {
+        const { email, password } = req.body;
+        const user = await userModel.getUserInfo(email);
+        if (!user) {
+          return res.status(401).json({ message: "Invalid credentials" });
+        }
+        const isValidPassword = await bcrypt.compare(password, user[0].password);
+        if (!isValidPassword) {
+          return res.status(401).json({ message: "Invalid credentials Pa" });
+        }
+    
+        const token = jwt.sign({ email: user.email }, SECRET, {
+          expiresIn: "1h",
+        });
+        
+        return res.status(200).json({ token });
+      } catch (error) {
+        console.error('Erro ao autenticar o usuário:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+    };
+ 
 
 const create = async (req, res) => {
 try{
@@ -92,4 +120,5 @@ module.exports = {
   editUserController,
   deleteUserController,
   create,
+  auth,
 };

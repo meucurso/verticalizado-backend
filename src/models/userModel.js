@@ -75,7 +75,24 @@ const deleteUser = async (email) => {
   }
 
 };
+
+const authUser = async (email, password) => {
+  try{
+    const [user] = await connection.execute("SELECT * FROM student WHERE email = ? AND password = ?", [
+      email,
+      password,
+    ]);
+    return user;
+  } catch (error) {
+    console.error('Erro ao autenticar o usuário:', error);
+    throw error;
+  }
+};
+
+
+
 module.exports = {
+  authUser,
 createUser,
 getUserInfo,
  editUserInfo,
