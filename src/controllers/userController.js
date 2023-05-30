@@ -11,6 +11,7 @@ try{
     cpf,
     sex,
     password,
+    birth_date,
   } = req.body;
  
 const hashedPassword = bcrypt.hashSync(password, 10);
@@ -29,6 +30,7 @@ const hashedPassword = bcrypt.hashSync(password, 10);
     updated_at: updated_at,
     created_at: created_at,
     password: hashedPassword,
+    birth_date,
   });
 
 return res.status(200).json(user);

@@ -10,9 +10,10 @@ const createUser = async ({
   updated_at,
   created_at,
   password,
+  birth_date,
 }) => {
   try {
-    const [user] = await connection.execute("INSERT INTO Student ( state_id, city_id, name, email, cpf, sex, active, update_at, created_at, password) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+    const [user] = await connection.execute("INSERT INTO Student ( state_id, city_id, name, email, cpf, sex, active, update_at, created_at, password, birth_date) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
       state_id,
       city_id,
       name,
@@ -23,6 +24,7 @@ const createUser = async ({
       updated_at,
       created_at,
       password,
+      birth_date,
     ]);
     return user;
   } catch (error) {
