@@ -105,6 +105,7 @@ const updatePassword = async (email, password) => {
   }
 };
 
+
 const recoverPassword = async (email) => {
   try{
     const [user] = await connection.execute("SELECT * FROM student WHERE email = ?", [
@@ -116,9 +117,19 @@ const recoverPassword = async (email) => {
     throw error;
   }
 };
+const getAllUsers = async () => {
+  try{
+    const [user] = await connection.execute("SELECT * FROM student");
+    return user;
+  } catch (error) {
+    console.error('Erro ao recuperar a senha do usuário:', error);
+    throw error;
+  }
+  }
 
 
 module.exports = {
+  getAllUsers,
   recoverPassword,
   authUser,
 createUser,

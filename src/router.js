@@ -12,6 +12,7 @@ router.post("/users/auth", userController.auth);
 router.get("/users/getUserInfo", userController.getUserInfo);
 router.put("/users/edit", userController.editUserController);
 router.put("/users/delete", userController.deleteUserController);
+router.put("/users/editPassword", userController.editPassword);
 router.get("/location/citys", locationController.getCitys);
 router.get("/location/states", locationController.getStates);
 router.get("/location/citys/:id", locationController.getCityNameById);
