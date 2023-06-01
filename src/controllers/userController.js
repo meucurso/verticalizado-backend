@@ -112,6 +112,7 @@ const auth = async (req, res) => {
  
 
 const create = async (req, res) => {
+
 try{
   const {
     state_id,
@@ -123,6 +124,10 @@ try{
     password,
     birth_date,
   } = req.body;
+  const exist = await userModel.getUserInfo(email);
+  if (exist.length > 0) {
+    return res.status(409).json({ message: "Email already registered" });
+  }
  
 const hashedPassword = bcrypt.hashSync(password, 10);
 
@@ -184,9 +189,12 @@ const getUserInfo = async (req, res) => {
 };
 const editUserController = async (req, res) => {
 
-
  try{
   const { email, name, state_id, city_id } = req.body;
+  const exist = await userModel.getUserInfo(email);
+  if (exist.length === 0) {
+    return res.status(404).json({ message: "User not found" });
+  }
   const user = await userModel.editUserInfo(email, name, state_id, city_id);
   return res.status(200).json(user);
  } catch(error) {
@@ -199,6 +207,10 @@ const editUserController = async (req, res) => {
 const deleteUserController = async (req, res) => {
 try{
   const { email } = req.body;
+  const exist = await userModel.getUserInfo(email);
+  if (exist.length === 0) {
+    return res.status(404).json({ message: "User not found" });
+  }
   const user = await userModel.deleteUser(email);
   return res.status(200).json(user);
 } catch (error) {
