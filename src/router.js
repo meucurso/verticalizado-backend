@@ -8,10 +8,12 @@ router.get("/", (req, res) => {
 });
 
 router.post("/users/create", userController.create);
+router.post("/users/recovery", userController.recovery);
 router.post("/users/auth", userController.auth);
 router.get("/users/getUserInfo", userController.getUserInfo);
 router.put("/users/edit", userController.editUserController);
 router.put("/users/delete", userController.deleteUserController);
 router.get("/location/citys", locationController.getCitys);
 router.get("/location/states", locationController.getStates);
+
 module.exports = router;

@@ -34,15 +34,16 @@ const createUser = async ({
 };
 
 const getUserInfo = async (email) => {
- try{
-  const [user] = await connection.execute("SELECT * FROM student WHERE email = ?", [
-    email,
-  ]);
-  return user;
- } catch (error) {
+  try{
+    const [user] = await connection.execute("SELECT * FROM student WHERE email = ?", [
+      email,
+    ]);
+    return user;
+  } catch (error) {
     console.error('Erro ao pegar informacao do  usuário:', error);
     throw error;
   }
+
 };
 
 const editUserInfo = async (email, name, state_id, city_id) => {
@@ -77,24 +78,52 @@ const deleteUser = async (email) => {
 };
 
 const authUser = async (email, password) => {
-  try{
-    const [user] = await connection.execute("SELECT * FROM student WHERE email = ? AND password = ?", [
-      email,
-      password,
-    ]);
+  try {
+    const [user] = await connection.execute(
+      "SELECT * FROM student WHERE email = ? AND password = ?",
+      [
+        email || null, 
+        password || null,
+      ]
+    );
     return user;
   } catch (error) {
     console.error('Erro ao autenticar o usuário:', error);
     throw error;
   }
 };
+const updatePassword = async (email, password) => {
+  try{
+    const [user] = await connection.execute("UPDATE student SET password = ? WHERE email = ?", [
+      password,
+      email,
+    ]);
+    return user;
+  } catch (error) {
+    console.error('Erro ao atualizar a senha do usuário:', error);
+    throw error;
+  }
+};
 
+const recoverPassword = async (email) => {
+  try{
+    const [user] = await connection.execute("SELECT * FROM student WHERE email = ?", [
+      email,
+    ]);
+    return user;
+  } catch (error) {
+    console.error('Erro ao recuperar a senha do usuário:', error);
+    throw error;
+  }
+};
 
 
 module.exports = {
+  recoverPassword,
   authUser,
 createUser,
 getUserInfo,
  editUserInfo,
   deleteUser,
+  updatePassword,
 };
