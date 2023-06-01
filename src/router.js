@@ -6,7 +6,6 @@ const router = express.Router();
 router.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
 router.post("/users/create", userController.create);
 router.post("/users/recovery", userController.recovery);
 router.post("/users/auth", userController.auth);
@@ -15,5 +14,8 @@ router.put("/users/edit", userController.editUserController);
 router.put("/users/delete", userController.deleteUserController);
 router.get("/location/citys", locationController.getCitys);
 router.get("/location/states", locationController.getStates);
+router.get("/location/citys/:id", locationController.getCityNameById);
+router.get("/location/states/:id", locationController.getStateNameById);
+
 
 module.exports = router;
