@@ -71,7 +71,7 @@ const recovery = async (req, res) => {
       if (error) {
         console.error(error);
       } else {
-        console.log('E-mail enviado com sucesso:', info.response);
+        console.log(`Email enviado: ${info.response}`);
       }
     });
     res.status(200).json({ message: 'Um e-mail de recuperação de senha foi enviado para o endereço fornecido.' });
