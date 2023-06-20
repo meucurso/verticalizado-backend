@@ -40,7 +40,17 @@ const getStateNameById = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
+const getCityByStateId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const city = await locationModel.getCityByStateId(id);
+        return res.status(200).json(city);
+    } catch (error) {
+        console.error('Erro ao pegar as cidades:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
   
 
 
-module.exports = { getCitys, getStates, getCityNameById, getStateNameById };
+module.exports = { getCitys, getStates, getCityNameById, getStateNameById , getCityByStateId};

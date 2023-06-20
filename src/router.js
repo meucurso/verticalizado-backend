@@ -17,6 +17,6 @@ router.get("/location/citys", locationController.getCitys);
 router.get("/location/states", locationController.getStates);
 router.get("/location/citys/:id", locationController.getCityNameById);
 router.get("/location/states/:id", locationController.getStateNameById);
-
+router.get("/location/citys/state/:id", locationController.getCityByStateId);
 
 module.exports = router;

@@ -24,5 +24,12 @@ const getStateNameById = async (id) => {
     );
     return locations;
     }
+const getCityByStateId = async (id) => {
+    const [locations] = await connection.execute(
+        "SELECT * FROM city WHERE state_id = ?", [id]
+    );
+    return locations;
+    }
 
-module.exports = { getAllCitys, getAllStates , getCityNameById, getStateNameById};
+
+module.exports = { getAllCitys, getAllStates , getCityNameById, getStateNameById, getCityByStateId};
