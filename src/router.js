@@ -20,5 +20,8 @@ router.get("/location/citys/:id", locationController.getCityNameById);
 router.get("/location/states/:id", locationController.getStateNameById);
 router.get("/location/citys/state/:id", locationController.getCityByStateId);
 router.post("/edital/create", editalController.insertEdital);
+router.post("/edital/favorites", editalController.favoriteEdital);
+router.get("/edital/favorites/:userId", editalController.getFavorites);
+router.put("/edital/favorites", editalController.removeFavoriteEdital);
 
 module.exports = router;
