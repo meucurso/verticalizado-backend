@@ -101,7 +101,7 @@ const updateFavorites = async (userId, editalId, secondEditalId, thirdEditalId) 
         ]);
 
         return edital;
-
+        
     }
     catch(error){
         console.error('Erro ao inserir edital:', error);
@@ -120,7 +120,6 @@ const userExist = async (userId) => {
         throw error;
     }
 }
-
 
 
 module.exports = { insertEdital, favoriteEdital, getFavoriteEditals , removeFavoriteEdital, updateFavorites, userExist};
