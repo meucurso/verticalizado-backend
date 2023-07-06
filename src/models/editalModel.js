@@ -91,7 +91,36 @@ const removeFavoriteEdital = async (userId, editalId) => {
         throw error;
     }
 }
+const updateFavorites = async (userId, editalId, secondEditalId, thirdEditalId) => {
+    try{
+        const [edital] = await connection.execute("UPDATE favoriteEditals SET editalId = ?, secondEditalId = ?, thirdEditalId = ? WHERE userId = ?", [
+            editalId,
+            secondEditalId,
+            thirdEditalId,
+            userId,
+        ]);
+
+        return edital;
+
+    }
+    catch(error){
+        console.error('Erro ao inserir edital:', error);
+        throw error;
+    }
+}
+const userExist = async (userId) => {
+    try{
+        const [edital] = await connection.execute("SELECT * FROM favoriteEditals WHERE userId = ?", [
+            userId,
+        ]);
+        return edital;
+    }
+    catch(error){
+        console.error('Erro ao inserir edital:', error);
+        throw error;
+    }
+}
 
 
 
-module.exports = { insertEdital, favoriteEdital, getFavoriteEditals , removeFavoriteEdital};
+module.exports = { insertEdital, favoriteEdital, getFavoriteEditals , removeFavoriteEdital, updateFavorites, userExist};
