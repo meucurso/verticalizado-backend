@@ -5,7 +5,7 @@ const locationController = require("./controllers/locationController");
 const editalController = require("./controllers/editalController");
 const router = express.Router();
 router.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! Liniglia Test");
 });
 router.post("/users/create", userController.create);
 router.post("/users/recovery", userController.recovery);
