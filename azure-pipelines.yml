@@ -13,5 +13,5 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        cd /home/meucurso/verticalizado-backend
+        cd /home/meucurso/start
         pm2 start ecosystem.config.js
