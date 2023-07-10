@@ -2,6 +2,7 @@ const express = require("express");
 const app = require("./app");
 const userController = require("./controllers/userController");
 const locationController = require("./controllers/locationController");
+const editalController = require("./controllers/editalController");
 const router = express.Router();
 router.get("/", (req, res) => {
   res.send("Hello World!");
@@ -18,5 +19,9 @@ router.get("/location/states", locationController.getStates);
 router.get("/location/citys/:id", locationController.getCityNameById);
 router.get("/location/states/:id", locationController.getStateNameById);
 router.get("/location/citys/state/:id", locationController.getCityByStateId);
+router.post("/edital/create", editalController.insertEdital);
+router.post("/edital/favorites", editalController.favoriteEdital);
+router.get("/edital/favorites/:userId", editalController.getFavorites);
+router.put("/edital/favorites", editalController.removeFavoriteEdital);
 
 module.exports = router;

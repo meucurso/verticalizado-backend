@@ -4,7 +4,6 @@ const createUser = async ({
   city_id,
   name,
   email,
-  cpf,
   sex,
   active,
   updated_at,
@@ -13,12 +12,11 @@ const createUser = async ({
   birth_date,
 }) => {
   try {
-    const [user] = await connection.execute("INSERT INTO Student ( state_id, city_id, name, email, cpf, sex, active, update_at, created_at, password, birth_date) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+    const [user] = await connection.execute("INSERT INTO student ( state_id, city_id, name, email, sex, active, update_at, created_at, password, birth_date) VALUES ( ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?)", [
       state_id,
       city_id,
       name,
       email,
-      cpf,
       sex,
       active,
       updated_at,
