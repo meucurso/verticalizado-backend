@@ -1,21 +1,17 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
-- master
+  branches:
+    include:
+      - main  # Altere "main" para o nome da branch que você deseja acionar a pipeline
 
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+jobs:
+- job: ExecuteScript
+  displayName: 'Execute PM2 script'
+  pool:
+    vmImage: 'ubuntu-latest'  # Escolha a imagem do agente que corresponda ao seu ambiente de execução
+  steps:
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        cd /home/meucurso/verticalizado-backend
+        pm2 start ecosystem.config.js
