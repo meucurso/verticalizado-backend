@@ -8,10 +8,10 @@ jobs:
   displayName: 'Execute PM2 script'
   pool:
     vmImage: 'ubuntu-latest'  # Escolha a imagem do agente que corresponda ao seu ambiente de execução
-  steps:
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |
-        cd /home/meucurso/start
-        pm2 start ecosystem.config.js
+steps:
+- script: 'npm install pm2 -g'
+  displayName: 'Install PM2'
+- script: |
+    cd /home/meucurso/start
+    pm2 start ecosystem.config.js
+  displayName: 'Execute PM2 script'
