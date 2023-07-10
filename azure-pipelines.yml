@@ -18,3 +18,9 @@ jobs:
         cd /home/meucurso/start
         pm2 start ecosystem.config.js
     displayName: 'Execute PM2 script'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      cd /home/meucurso/start
+      pm2 start ecosystem.config.js
