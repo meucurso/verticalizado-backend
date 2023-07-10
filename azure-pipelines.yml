@@ -8,7 +8,7 @@ jobs:
   displayName: 'Execute PM2 script'
   pool:
     vmImage: 'ubuntu-latest'  # Escolha a imagem do agente que corresponda ao seu ambiente de execução
-steps:
+  steps:
 - script: 'npm install pm2 -g'
   displayName: 'Install PM2'
 - script: |
