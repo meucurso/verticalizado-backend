@@ -22,7 +22,7 @@ const createUser = async ({
       updated_at,
       created_at,
       password,
-      birth_date,
+      birth_date || null,
     ]);
     return user;
   } catch (error) {

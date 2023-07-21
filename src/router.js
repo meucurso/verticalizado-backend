@@ -1,11 +1,10 @@
 const express = require("express");
-const app = require("./app");
 const userController = require("./controllers/userController");
 const locationController = require("./controllers/locationController");
 const editalController = require("./controllers/editalController");
 const router = express.Router();
 router.get("/", (req, res) => {
-  res.send("Hello World! Liniglia Test");
+  res.send("Hello World!");
 });
 router.post("/users/create", userController.create);
 router.post("/users/recovery", userController.recovery);
