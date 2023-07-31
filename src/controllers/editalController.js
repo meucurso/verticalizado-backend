@@ -17,8 +17,7 @@ const favoriteEdital = async (req, res) => {
         const verifyEditalIsNull = editalId || null;
         const verifySecondIsNull = secondEditalId || null;
         const verifyThirdIsNull = thirdEditalId || null;
-        if (editalModel.userExist(req.body.userId) === false) {
-       
+        if (editalModel.userExist(req.body.userId) !== true) {
         const edital = await editalModel.favoriteEdital(userId, verifyEditalIsNull, verifySecondIsNull, verifyThirdIsNull);
         return res.status(200).json(edital);
         }
