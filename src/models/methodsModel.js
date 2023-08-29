@@ -33,7 +33,7 @@ const deleteStudentMethods = async (studentId, editalId, areaId, methodId) => {
 const getStudentMethodsEditalAndArea = async (studentId, editalId, areaId) => {
     try {
         const methods = await connection.execute("SELECT * FROM student_methods WHERE studentid = ? AND editalid = ? AND areaid = ?", [studentId, editalId, areaId]);
-        return methods;
+        return methods[0];
     } catch (error) {
         console.error('Erro ao inserir edital:', error);
         throw error;
