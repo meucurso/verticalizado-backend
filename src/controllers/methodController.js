@@ -13,7 +13,6 @@ const getAllStudentMethods = async (req, res) => {
        const { studentId, editalId, areaId } = req.query;
        console.log(studentId, editalId, areaId);
         const methods = await methodModel.getStudentMethodsEditalAndArea(studentId, editalId, areaId);
-        console.log(methods, "aaa");
          return res.status(200).json(methods);
         
   } catch (error) {
