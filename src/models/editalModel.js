@@ -66,9 +66,6 @@ const removeFavoriteEdital = async (userId, editalId) => {
             "SELECT * FROM favoriteEditals WHERE userId = ?",
             [userId]
           );
-          
-          console.log(edital2);
-
           if (edital.length > 0) {
             const editalResult = edital[0].result;
             if (editalResult === null) {

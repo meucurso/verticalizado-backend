@@ -11,7 +11,7 @@ const getAllMethods = async () => {
 }
 const insertStudentMethods = async (studentId, editalId, areaId, methods) => {
     try {
-        await connection.execute("INSERT INTO student_methods (studentid, editalid, areaid, methodId) VALUES (?, ?, ?, ?)", [studentId, editalId, areaId, methods]);
+        await connection.execute("INSERT INTO student_methods (studentid, editalid, areaid, ) VALUES (?, ?, ?, ?)", [studentId, editalId, areaId, methods]);
         return true; 
     } catch (error) {
         console.error('Erro ao inserir edital:', error);
