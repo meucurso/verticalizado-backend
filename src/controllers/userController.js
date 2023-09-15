@@ -1,8 +1,8 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const nodemailer = require('nodemailer');
-const sgMail = require('@sendgrid/mail');
+const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
 const SECRET = process.env.JWT_SECRET;
 
 const recovery = async (req, res) => {
@@ -12,10 +12,10 @@ const recovery = async (req, res) => {
     const { email } = req.body;
     const userExist = await userModel.getUserInfo(email);
     if (!userExist || userExist.length === 0) {
-      return res.status(404).json({ error: 'Usuário não encontrado.' });
+      return res.status(404).json({ error: "Usuário não encontrado." });
     }
     const transporter = nodemailer.createTransport({
-      service: 'SendGrid',
+      service: "SendGrid",
       auth: {
         user: "apikey",
         pass: process.env.SENDGRID_KEY,
@@ -23,10 +23,10 @@ const recovery = async (req, res) => {
     });
     const newPassword = Math.random().toString(36).slice(-8);
     const mailOptions = {
-      from: 'contato@meucurso.com.br',
+      from: "contato@meucurso.com.br",
       to: email,
-      subject: 'VERTICALIZADO - RECUPERAÇÃO DE SENHA',
-   html: `<!DOCTYPE html>
+      subject: "VERTICALIZADO - RECUPERAÇÃO DE SENHA",
+      html: `<!DOCTYPE html>
    <html>
    <head>
      <title>Recuperação de Senha</title>
@@ -71,13 +71,20 @@ const recovery = async (req, res) => {
       if (error) {
         console.error(error);
       } else {
-        console.log(`Email enviado: ${info.response}`);
+        `Email enviado: ${info.response}`;
       }
     });
-    res.status(200).json({ message: 'Um e-mail de recuperação de senha foi enviado para o endereço fornecido.' });
+    res
+      .status(200)
+      .json({
+        message:
+          "Um e-mail de recuperação de senha foi enviado para o endereço fornecido.",
+      });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Ocorreu um erro ao solicitar a recuperação de senha.' });
+    res
+      .status(500)
+      .json({ error: "Ocorreu um erro ao solicitar a recuperação de senha." });
   }
 };
 
@@ -105,68 +112,59 @@ const auth = async (req, res) => {
 
     return res.status(200).json({ token });
   } catch (error) {
-    console.error('Erro ao autenticar o usuário:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    console.error("Erro ao autenticar o usuário:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
- 
 
 const create = async (req, res) => {
+  try {
+    const { state_id, city_id, name, email, sex, password, birth_date } =
+      req.body;
+    const exist = await userModel.getUserInfo(email);
+    if (exist.length > 0) {
+      return res.status(409).json({ message: "Email already registered" });
+    }
 
-try{
-  const {
-    state_id,
-    city_id,
-    name,
-    email,
-    sex,
-    password,
-    birth_date,
-  } = req.body;
-  const exist = await userModel.getUserInfo(email);
-  if (exist.length > 0) {
-    return res.status(409).json({ message: "Email already registered" });
-  }
- 
-const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
-  const active = 1;
-  const updated_at = new Date();
-  const created_at = new Date();
-  const user = await userModel.createUser({
-    state_id,
-    city_id,
-    name,
-    email,
-    sex,
-    active: active,
-    updated_at: updated_at,
-    created_at: created_at,
-    password: hashedPassword,
-    birth_date,
-  });
+    const active = 1;
+    const updated_at = new Date();
+    const created_at = new Date();
+    const user = await userModel.createUser({
+      state_id,
+      city_id,
+      name,
+      email,
+      sex,
+      active: active,
+      updated_at: updated_at,
+      created_at: created_at,
+      password: hashedPassword,
+      birth_date,
+    });
 
-return res.status(200).json(user);
-} catch (error) {
-  if (error.code === "ER_DUP_ENTRY") {
-    return res.status(409).json({ message: "Email already registered" });
+    return res.status(200).json(user);
+  } catch (error) {
+    if (error.code === "ER_DUP_ENTRY") {
+      return res.status(409).json({ message: "Email already registered" });
+    }
+    if (error.code === "ER_NO_REFERENCED_ROW_2") {
+      return res.status(400).json({ message: "Invalid state or city" });
+    }
+    console.error("Erro ao criar o usuário:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
-  if (error.code === "ER_NO_REFERENCED_ROW_2") {
-    return res.status(400).json({ message: "Invalid state or city" });
-  }
-  console.error("Erro ao criar o usuário:", error);
-  return res.status(500).json({ message: "Internal server error" });
-}
 };
 const getUserInfo = async (req, res) => {
   try {
     const authorizationHeader = req.headers.authorization;
 
     if (!authorizationHeader) {
-      return res.status(401).json({ message: 'Token não fornecido' });
+      return res.status(401).json({ message: "Token não fornecido" });
     }
 
-    const token = authorizationHeader.split(' ')[1];
+    const token = authorizationHeader.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const email = decodedToken.email;
 
@@ -175,48 +173,45 @@ const getUserInfo = async (req, res) => {
     if (user) {
       return res.status(200).json(user);
     } else {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+      return res.status(404).json({ message: "Usuário não encontrado" });
     }
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-      return res.status(401).json({ message: 'Token inválido' });
+      return res.status(401).json({ message: "Token inválido" });
     }
     console.error(error);
-    return res.status(500).json({ message: 'Erro interno do servidor' });
+    return res.status(500).json({ message: "Erro interno do servidor" });
   }
 };
 const editUserController = async (req, res) => {
-
- try{
-  const { email, name, state_id, city_id } = req.body;
-  const exist = await userModel.getUserInfo(email);
-  if (exist.length === 0) {
-    return res.status(404).json({ message: "User not found" });
+  try {
+    const { email, name, state_id, city_id } = req.body;
+    const exist = await userModel.getUserInfo(email);
+    if (exist.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const user = await userModel.editUserInfo(email, name, state_id, city_id);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Erro ao editar o usuário:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
-  const user = await userModel.editUserInfo(email, name, state_id, city_id);
-  return res.status(200).json(user);
- } catch(error) {
-
-  console.error("Erro ao editar o usuário:", error);
-  return res.status(500).json({ message: "Internal server error" });
- }
 };
 
 const deleteUserController = async (req, res) => {
-try{
-  const { email } = req.body;
-  const exist = await userModel.getUserInfo(email);
-  if (exist.length === 0) {
-    return res.status(404).json({ message: "User not found" });
+  try {
+    const { email } = req.body;
+    const exist = await userModel.getUserInfo(email);
+    if (exist.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const user = await userModel.deleteUser(email);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Erro ao deletar o usuário:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
-  const user = await userModel.deleteUser(email);
-  return res.status(200).json(user);
-} catch (error) {
-  console.error("Erro ao deletar o usuário:", error);
-  return res.status(500).json({ message: "Internal server error" });
-}
 };
-
 
 const editPassword = async (req, res) => {
   try {
@@ -226,7 +221,11 @@ const editPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     if (!currentPassword || !password) {
-      return res.status(400).json({ message: "Invalid request. Missing currentPassword or password." });
+      return res
+        .status(400)
+        .json({
+          message: "Invalid request. Missing currentPassword or password.",
+        });
     }
     const isValidPassword = await bcrypt.compare(
       currentPassword,
@@ -243,9 +242,6 @@ const editPassword = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
-  
 
 module.exports = {
   editPassword,

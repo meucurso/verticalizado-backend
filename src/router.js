@@ -28,5 +28,5 @@ router.get("/method/getStudent", methodController.getAllStudentMethods);
 router.post("/method/insert", methodController.insertStudentMethods);
 router.put("/method/delete", methodController.deleteStudentMethods);
 router.get("/method/getByEdital", methodController.getByEdital);
-
+router.get("/method/percent", methodController.percentEdital);
 module.exports = router;

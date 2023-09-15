@@ -49,8 +49,21 @@ const getByEdital = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
+const percentEdital = async (req, res) => {
+    try{
+        const { studentId, editalId } = req.body;
+        const method = await methodModel.percentEditalModel(studentId, editalId);
+        return res.status(200).json(method);
+
+    }
+    catch(error){
+console.error('Erro ao pegar os metodos:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
 
 module.exports = { 
+percentEdital,
 getAllMethods,
 getAllStudentMethods,
 getByEdital,

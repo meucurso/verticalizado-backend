@@ -49,9 +49,17 @@ const getByEditalIdAndUser = async (studentId, editalId) => {
 
     }
 }
+const percentEditalModel = async (studentId, editalId) => {
+    try{
+        const [methods] = await connection.execute("SELECT * FROM student_methods WHERE studentid = ? AND editalid = ?", [studentId, editalId]);
+        return methods;
+    }
+    catch(error){
+
+    }
+}
 
 
 
 
-
-module.exports = { getAllMethods , getStudentMethodsEditalAndArea, insertStudentMethods, deleteStudentMethods, getByEditalIdAndUser};
+module.exports = { getAllMethods , percentEditalModel, getStudentMethodsEditalAndArea, insertStudentMethods, deleteStudentMethods, getByEditalIdAndUser};
