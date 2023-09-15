@@ -74,12 +74,10 @@ const recovery = async (req, res) => {
         `Email enviado: ${info.response}`;
       }
     });
-    res
-      .status(200)
-      .json({
-        message:
-          "Um e-mail de recuperação de senha foi enviado para o endereço fornecido.",
-      });
+    res.status(200).json({
+      message:
+        "Um e-mail de recuperação de senha foi enviado para o endereço fornecido.",
+    });
   } catch (error) {
     console.error(error);
     res
@@ -221,11 +219,9 @@ const editPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     if (!currentPassword || !password) {
-      return res
-        .status(400)
-        .json({
-          message: "Invalid request. Missing currentPassword or password.",
-        });
+      return res.status(400).json({
+        message: "Invalid request. Missing currentPassword or password.",
+      });
     }
     const isValidPassword = await bcrypt.compare(
       currentPassword,
