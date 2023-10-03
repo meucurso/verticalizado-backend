@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/", (req, res) => {
   res.send("Hello World!");
 });
+router.get("/users", userController.getAll);
 router.post("/users/create", userController.create);
 router.post("/users/recovery", userController.recovery);
 router.post("/users/auth", userController.auth);
@@ -29,4 +30,5 @@ router.post("/method/insert", methodController.insertStudentMethods);
 router.put("/method/delete", methodController.deleteStudentMethods);
 router.get("/method/getByEdital", methodController.getByEdital);
 router.get("/method/percent", methodController.percentEdital);
+
 module.exports = router;

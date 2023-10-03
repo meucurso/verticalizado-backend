@@ -86,6 +86,22 @@ const recovery = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  try {
+    const {password} = req.headers;
+    if(password !== process.env.ADMIN_PASSWORD){
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+  
+    const users = await userModel.getAllUsers();
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error("Erro ao recuperar os usuários:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
 const auth = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -247,4 +263,5 @@ module.exports = {
   create,
   auth,
   recovery,
+  getAll,
 };

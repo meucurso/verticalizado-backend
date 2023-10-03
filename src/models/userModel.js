@@ -1,4 +1,7 @@
 const connection = require("./connection");
+
+
+
 const createUser = async ({
   state_id,
   city_id,
