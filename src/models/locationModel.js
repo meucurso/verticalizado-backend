@@ -1,30 +1,35 @@
 const connection = require("./connection");
-
+const SQL_QUERY = {
+  getAllCitysQuery: "SELECT * FROM city",
+  getAllStatesQuery: "SELECT * FROM state",
+  getCityNameByIdQuery: "SELECT * FROM city WHERE id = ?",
+  getStateNameByIdQuery: "SELECT * FROM state WHERE id = ?",
+  getCityByStateIdQuery: "SELECT * FROM city WHERE state_id = ?",
+};
 const getAllCitys = async () => {
-  const [locations] = await connection.execute("SELECT * FROM city");
+  const [locations] = await connection.execute(SQL_QUERY.getAllCitysQuery);
   return locations;
 };
 const getAllStates = async () => {
-  const [locations] = await connection.execute("SELECT * FROM state");
+  const [locations] = await connection.execute(SQL_QUERY.getAllStatesQuery);
   return locations;
 };
 const getCityNameById = async (id) => {
-  const [locations] = await connection.execute(
-    "SELECT * FROM city WHERE id = ?",
-    [id]
-  );
+  const [locations] = await connection.execute(SQL_QUERY.getCityNameByIdQuery, [
+    id,
+  ]);
   return locations;
 };
 const getStateNameById = async (id) => {
   const [locations] = await connection.execute(
-    "SELECT * FROM state WHERE id = ?",
+    SQL_QUERY.getStateNameByIdQuery,
     [id]
   );
   return locations;
 };
 const getCityByStateId = async (id) => {
   const [locations] = await connection.execute(
-    "SELECT * FROM city WHERE state_id = ?",
+    SQL_QUERY.getCityByStateIdQuery,
     [id]
   );
   return locations;

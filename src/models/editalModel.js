@@ -1,11 +1,21 @@
 const connection = require("./connection");
-
+const SQL_QUERY = {
+  insertEditalQuery:
+    "INSERT INTO editalorder (studentemail, editalname, officename, orgname) VALUES ( ?, ?, ?, ?)",
+  favoriteEditalQuery:
+    "INSERT INTO favoriteEditals (userId, editalId) VALUES (?, ?)",
+  getFavoriteEditalsQuery: "SELECT * FROM favoriteEditals WHERE userId = ?",
+  removeFavoriteEditalQuery:
+    "DELETE FROM favoriteEditals WHERE userId = ? AND editalId = ?",
+};
 const insertEdital = async (studentemail, editalname, officename, orgname) => {
   try {
-    const [edital] = await connection.execute(
-      "INSERT INTO editalorder (studentemail, editalname, officename, orgname) VALUES ( ?, ?, ?, ?)",
-      [studentemail, editalname, officename, orgname]
-    );
+    const [edital] = await connection.execute(SQL_QUERY.insertEditalQuery, [
+      studentemail,
+      editalname,
+      officename,
+      orgname,
+    ]);
     return edital;
   } catch (error) {
     console.error("Erro ao inserir edital:", error);
@@ -15,10 +25,10 @@ const insertEdital = async (studentemail, editalname, officename, orgname) => {
 
 const favoriteEdital = async (userId, editalId) => {
   try {
-    const [edital] = await connection.execute(
-      "INSERT INTO favoriteEditals (userId, editalId) VALUES (?, ?)",
-      [userId, editalId]
-    );
+    const [edital] = await connection.execute(SQL_QUERY.favoriteEditalQuery, [
+      userId,
+      editalId,
+    ]);
     return edital;
   } catch (error) {
     console.error("Erro ao inserir edital:", error);
@@ -28,7 +38,7 @@ const favoriteEdital = async (userId, editalId) => {
 const getFavoriteEditals = async (userId) => {
   try {
     const [edital] = await connection.execute(
-      "SELECT * FROM favoriteEditals WHERE userId = ?",
+      SQL_QUERY.getFavoriteEditalsQuery,
       [userId]
     );
     return edital;
@@ -40,7 +50,7 @@ const getFavoriteEditals = async (userId) => {
 const removeFavoriteEdital = async (userId, editalId) => {
   try {
     const [edital] = await connection.execute(
-      "DELETE FROM favoriteEditals WHERE userId = ? AND editalId = ?",
+      SQL_QUERY.removeFavoriteEditalQuery,
       [userId, editalId]
     );
     return edital;

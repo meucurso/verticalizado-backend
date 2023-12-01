@@ -3,9 +3,10 @@ const userController = require("./controllers/userController");
 const locationController = require("./controllers/locationController");
 const editalController = require("./controllers/editalController");
 const methodController = require("./controllers/methodController");
+const pomodoroController = require("./controllers/pomodoroController");
 const router = express.Router();
-router.get("/", (req, res) => {
-  res.send("Hello World!");
+router.get("/ping", (req, res) => {
+  res.send("pong!");
 });
 router.get("/users", userController.getAll);
 router.post("/users/create", userController.create);
@@ -15,20 +16,20 @@ router.get("/users/getUserInfo", userController.getUserInfo);
 router.put("/users/edit", userController.editUserController);
 router.put("/users/delete", userController.deleteUserController);
 router.put("/users/editPassword", userController.editPassword);
-router.get("/location/citys", locationController.getCitys);
+router.get("/location/citys", locationController.getCities);
 router.get("/location/states", locationController.getStates);
 router.get("/location/citys/:id", locationController.getCityNameById);
 router.get("/location/states/:id", locationController.getStateNameById);
-router.get("/location/citys/state/:id", locationController.getCityByStateId);
+router.get("/location/citys/state/:id", locationController.getCitiesByStateId);
 router.post("/edital/create", editalController.insertEdital);
 router.post("/edital/favorites", editalController.favoriteEdital);
 router.get("/edital/favorites/:userId", editalController.getFavorites);
 router.put("/edital/favorites", editalController.removeFavoriteEdital);
-router.get("/method/getAll", methodController.getAllMethods );
+router.get("/method/getAll", methodController.getAllMethods);
 router.get("/method/getStudent", methodController.getAllStudentMethods);
 router.post("/method/insert", methodController.insertStudentMethods);
 router.put("/method/delete", methodController.deleteStudentMethods);
 router.get("/method/getByEdital", methodController.getByEdital);
 router.get("/method/percent", methodController.percentEdital);
-
+router.post("/pomodoro/insert", pomodoroController.newTimer);
 module.exports = router;

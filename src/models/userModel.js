@@ -1,6 +1,17 @@
 const connection = require("./connection");
 
-
+const SQL_QUERY = {
+  createUserQuery:
+    "INSERT INTO student ( state_id, city_id, name, email, sex, active, update_at, created_at, password, birth_date) VALUES ( ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?)",
+  getUserInfoQuery: "SELECT * FROM student WHERE email = ?",
+  editUserInfoQuery:
+    "UPDATE student SET name = ?, state_id = ?, city_id = ? WHERE email = ?",
+  deleteUserQuery: "UPDATE student SET active = 0 WHERE email = ?",
+  authUserQuery: "SELECT * FROM student WHERE email = ? AND password = ?",
+  updatePasswordQuery: "UPDATE student SET password = ? WHERE email = ?",
+  recoverPasswordQuery: "SELECT * FROM student WHERE email = ?",
+  getAllUsersQuery: "SELECT * FROM student",
+};
 
 const createUser = async ({
   state_id,
@@ -15,21 +26,18 @@ const createUser = async ({
   birth_date,
 }) => {
   try {
-    const [user] = await connection.execute(
-      "INSERT INTO student ( state_id, city_id, name, email, sex, active, update_at, created_at, password, birth_date) VALUES ( ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?)",
-      [
-        state_id,
-        city_id,
-        name,
-        email,
-        sex,
-        active,
-        updated_at,
-        created_at,
-        password,
-        birth_date || null,
-      ]
-    );
+    const [user] = await connection.execute(SQL_QUERY.createUserQuery, [
+      state_id,
+      city_id,
+      name,
+      email,
+      sex,
+      active,
+      updated_at,
+      created_at,
+      password,
+      birth_date || null,
+    ]);
     return user;
   } catch (error) {
     console.error("Erro ao criar o usuário:", error);
@@ -39,10 +47,9 @@ const createUser = async ({
 
 const getUserInfo = async (email) => {
   try {
-    const [user] = await connection.execute(
-      "SELECT * FROM student WHERE email = ?",
-      [email]
-    );
+    const [user] = await connection.execute(SQL_QUERY.getUserInfoQuery, [
+      email,
+    ]);
     return user;
   } catch (error) {
     console.error("Erro ao pegar informacao do  usuário:", error);
@@ -52,10 +59,12 @@ const getUserInfo = async (email) => {
 
 const editUserInfo = async (email, name, state_id, city_id) => {
   try {
-    const [user] = await connection.execute(
-      "UPDATE student SET name = ?, state_id = ?, city_id = ? WHERE email = ?",
-      [name, state_id, city_id, email]
-    );
+    const [user] = await connection.execute(SQL_QUERY.editUserInfoQuery, [
+      name,
+      state_id,
+      city_id,
+      email,
+    ]);
     return user;
   } catch (error) {
     console.error("Erro ao editar o usuário:", error);
@@ -65,10 +74,7 @@ const editUserInfo = async (email, name, state_id, city_id) => {
 
 const deleteUser = async (email) => {
   try {
-    const [user] = await connection.execute(
-      "UPDATE student SET active = 0 WHERE email = ?",
-      [email]
-    );
+    const [user] = await connection.execute(SQL_QUERY.deleteUserQuery, [email]);
     return user;
   } catch (error) {
     console.error("Erro ao deletar o usuário:", error);
@@ -78,10 +84,10 @@ const deleteUser = async (email) => {
 
 const authUser = async (email, password) => {
   try {
-    const [user] = await connection.execute(
-      "SELECT * FROM student WHERE email = ? AND password = ?",
-      [email || null, password || null]
-    );
+    const [user] = await connection.execute(SQL_QUERY.authUserQuery, [
+      email || null,
+      password || null,
+    ]);
     return user;
   } catch (error) {
     console.error("Erro ao autenticar o usuário:", error);
@@ -90,10 +96,10 @@ const authUser = async (email, password) => {
 };
 const updatePassword = async (email, password) => {
   try {
-    const [user] = await connection.execute(
-      "UPDATE student SET password = ? WHERE email = ?",
-      [password, email]
-    );
+    const [user] = await connection.execute(SQL_QUERY.updatePasswordQuery, [
+      password,
+      email,
+    ]);
     return user;
   } catch (error) {
     console.error("Erro ao atualizar a senha do usuário:", error);
@@ -103,10 +109,9 @@ const updatePassword = async (email, password) => {
 
 const recoverPassword = async (email) => {
   try {
-    const [user] = await connection.execute(
-      "SELECT * FROM student WHERE email = ?",
-      [email]
-    );
+    const [user] = await connection.execute(SQL_QUERY.recoverPasswordQuery, [
+      email,
+    ]);
     return user;
   } catch (error) {
     console.error("Erro ao recuperar a senha do usuário:", error);
@@ -115,7 +120,7 @@ const recoverPassword = async (email) => {
 };
 const getAllUsers = async () => {
   try {
-    const [user] = await connection.execute("SELECT * FROM student");
+    const [user] = await connection.execute(SQL_QUERY.getAllUsersQuery);
     return user;
   } catch (error) {
     console.error("Erro ao recuperar a senha do usuário:", error);
