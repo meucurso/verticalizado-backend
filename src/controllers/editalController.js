@@ -1,4 +1,3 @@
-const { get } = require("../app");
 const editalModel = require("../models/editalModel");
 
 const insertEdital = async (req, res) => {
