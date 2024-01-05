@@ -7,7 +7,7 @@ const handleServerError = (res, error, errorMessage) => {
 
 const getCities = async (req, res) => {
   try {
-    const cities = await locationModel.getAllCities();
+    const cities = await locationModel.getAllCitys();
     return res.status(200).json(cities);
   } catch (error) {
     return handleServerError(res, error, "Error retrieving cities:");
@@ -46,7 +46,7 @@ const getStateNameById = async (req, res) => {
 const getCitiesByStateId = async (req, res) => {
   try {
     const { id } = req.params;
-    const cities = await locationModel.getCitiesByStateId(id);
+    const cities = await locationModel.getCityNameById(id);
     return res.status(200).json(cities);
   } catch (error) {
     return handleServerError(res, error, "Error retrieving cities by state ID:");
