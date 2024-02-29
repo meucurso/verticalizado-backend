@@ -4,76 +4,73 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const sgMail = require("@sendgrid/mail");
 const SECRET = process.env.JWT_SECRET;
-
+const smtpTransport = require("nodemailer-smtp-transport");
 const recovery = async (req, res) => {
-  sgMail.setApiKey(process.env.SENDGRID_KEY);
-
   try {
     const { email } = req.body;
     const userExist = await userModel.getUserInfo(email);
     if (!userExist || userExist.length === 0) {
       return res.status(404).json({ error: "Usuário não encontrado." });
     }
-    const transporter = nodemailer.createTransport({
-      service: "SendGrid",
-      auth: {
-        user: "apikey",
-        pass: process.env.SENDGRID_KEY,
-      },
-    });
+
     const newPassword = Math.random().toString(36).slice(-8);
+    const hash = bcrypt.hashSync(newPassword, 10);
+    await userModel.updatePassword(email, hash);
+
+    const transporter = nodemailer.createTransport(
+      smtpTransport({
+        service: "gmail",
+        auth: {
+          user: "verticalizado.meucrso@gmail.com",
+          pass: "rbnt kxxc nyob acev",
+        },
+      })
+    );
+
     const mailOptions = {
-      from: "contato@meucurso.com.br",
+      from: "verticalizado@meucurso.com.br",
       to: email,
       subject: "VERTICALIZADO - RECUPERAÇÃO DE SENHA",
       html: `<!DOCTYPE html>
-   <html>
-   <head>
-     <title>Recuperação de Senha</title>
-     <style>
-       body {
-         text-align: center;
-         font-family: Arial, sans-serif;
-         color: #555555;
-       }
-       
-       h2 {
-         font-size: 24px;
-         color: #333333;
-       }
-       
-       p {
-         font-size: 16px;
-       }
-       
-       .new-password {
-         font-size: 20px;
-         color: #8a2be2;
-       }
-     </style>
-   </head>
-   <body>
-     <h2>Recuperação de Senha</h2>
-     <p>Olá,</p>
-     <p>Você solicitou a recuperação de senha para a sua conta. Abaixo está a sua nova senha:</p>
-     <p class="new-password">${newPassword}</p>
-     <p>Se você não solicitou essa recuperação de senha, ignore este email.</p>
-     <p>Atenciosamente,</p>
-     <p>Verticalizado</p>
-   </body>
-   </html>
-   `,
+       <html>
+       <head>
+         <title>Recuperação de Senha</title>
+         <style>
+           body {
+             text-align: center;
+             font-family: Arial, sans-serif;
+             color: #555555;
+           }
+           
+           h2 {
+             font-size: 24px;
+             color: #333333;
+           }
+           
+           p {
+             font-size: 16px;
+           }
+           
+           .new-password {
+             font-size: 20px;
+             color: #8a2be2;
+           }
+         </style>
+       </head>
+       <body>
+         <h2>Recuperação de Senha</h2>
+         <p>Olá,</p>
+         <p>Você solicitou a recuperação de senha para a sua conta. Abaixo está a sua nova senha:</p>
+         <p class="new-password">${newPassword}</p>
+         <p>Se você não solicitou essa recuperação de senha, ignore este email.</p>
+         <p>Atenciosamente,</p>
+         <p>Verticalizado</p>
+       </body>
+       </html>
+       `,
     };
 
-    const hash = bcrypt.hashSync(newPassword, 10);
-    await userModel.updatePassword(email, hash);
-    await transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error(error);
-      } else {
-        `Email enviado: ${info.response}`;
-      }
-    });
+    await transporter.sendMail(mailOptions);
     res.status(200).json({
       message:
         "Um e-mail de recuperação de senha foi enviado para o endereço fornecido.",
