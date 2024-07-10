@@ -65,10 +65,26 @@ const getFavorites = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+const getFavoritesAll = async (req, res) => {
+  try {
+    if (!req.params.userId) {
+      return res
+        .status(400)
+        .json({ message: "Invalid request. Missing userId." });
+    }
+    const { userId } = req.params;
+    const edital = await editalModel.getFavoriteEditals(userId);
+    return res.status(200).json(edital);
+  } catch (error) {
+    console.error("Erro ao inserir edital:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 module.exports = {
   insertEdital,
   favoriteEdital,
   getFavorites,
+  getFavoritesAll,
   removeFavoriteEdital,
 };
