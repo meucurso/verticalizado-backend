@@ -24,6 +24,7 @@ router.get("/location/citys/state/:id", locationController.getCitiesByStateId);
 router.post("/edital/create", editalController.insertEdital);
 router.post("/edital/favorites", editalController.favoriteEdital);
 router.get("/edital/favorites/:userId", editalController.getFavorites);
+router.get("/edital/favorites", editalController.getFavoritesAll);
 router.put("/edital/favorites", editalController.removeFavoriteEdital);
 router.get("/method/getAll", methodController.getAllMethods);
 router.get("/method/getStudent", methodController.getAllStudentMethods);
